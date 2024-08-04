@@ -10,3 +10,4 @@ Currently, two official plugins are available:
 
 
 npm i react-router-dom axios 
+npm i react-hot-toast
