@@ -4,7 +4,7 @@ const router = express.Router();
 const cors = require('cors');
 const { test } = require('../controllers/authController');
 const bcryptjs = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
 
        //middleware
  
@@ -66,7 +66,7 @@ const bcryptjs = require('bcryptjs');
              try {
                 const {email, password} = req.body;
 
-                //check if email is exist
+                //check if userl is exist
                 const user = await User.findOne({email});
 
                 if(!user){
@@ -74,6 +74,8 @@ const bcryptjs = require('bcryptjs');
                         error: 'Not user found'
                     })
                 }
+             
+
 
                 //check if password is correct
                 if(!bcryptjs.compareSync(password, user.password)){
@@ -82,12 +84,14 @@ const bcryptjs = require('bcryptjs');
                     })
                 } else {
                    
-                    return res.json({
-                        message: 'succesfully login',
-                    })
-                }
-
+                jwt.sign({email: user.email, id: user._id, name: user.name },process.env.JWT_SECRET ,{},(err,token) =>{
+                    if(err) throw err;
+                    res.cookie('token',token).json(user)
+  
+                })
                 
+                }
+              
              } catch (error) {
                   
                   console.log(error);

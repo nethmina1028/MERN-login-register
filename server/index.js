@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv').config()
 const cors = require('cors');
 const { mongoose }= require('mongoose');
+const cookieParser = require('cookie-parser');  //cookie 
    
 const app = express();
 
@@ -13,8 +14,9 @@ mongoose.connect(process.env.MONGO_URL)
 
       //middleware
 
-    app.use(express.json());
-      
+    app.use(express.json());          
+    app.use(cookieParser());        //cookie
+    app.use(express.urlencoded({extended:false}));   //cookie
 
 
 //set package.josn

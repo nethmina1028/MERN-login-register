@@ -11,3 +11,15 @@ Currently, two official plugins are available:
 
 npm i react-router-dom axios 
 npm i react-hot-toast
+
+
+
+
+
+
+
+
+ jwt.sign({email: user.email, id: user._id, name: user.name },process.env.JWT_SECRET ,{},(err,token) =>{
+                    if(err) throw err;
+                    res.cookie('token',token).json(user)
+                })
