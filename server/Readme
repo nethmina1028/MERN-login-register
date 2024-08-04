@@ -1,2 +1,3 @@
 npm init
  npm i express nodemon dotenv cors
+ $ npm i mongoose

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import axios from 'axios'
 
 function Login() {
       
@@ -9,6 +10,7 @@ function Login() {
   })
       const loginUser =  (e) => {
          e.preventDefault()
+         axios.get('/')
       }
   return (
     <div> 
