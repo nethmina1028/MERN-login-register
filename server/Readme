@@ -1,3 +1,4 @@
-npm init
+ npm init
  npm i express nodemon dotenv cors
- $ npm i mongoose
+ npm i mongoose
+ npm i bcryptjs

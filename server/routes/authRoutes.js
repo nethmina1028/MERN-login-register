@@ -3,6 +3,9 @@ const User = require('../models/user');
 const router = express.Router();
 const cors = require('cors');
 const { test } = require('../controllers/authController');
+const bcryptjs = require('bcryptjs');
+
+
        //middleware
  
     router.use(
@@ -12,7 +15,7 @@ const { test } = require('../controllers/authController');
         })
     );
 
-
+    //register user
     router.post('/register', async (req, res) => {
             
         try {
@@ -39,10 +42,15 @@ const { test } = require('../controllers/authController');
                         error: 'Email is already in use'
                     })
                 } 
+           
+                const hashedPassword = bcryptjs.hashSync(password, 10);
 
+                //create user in database
                 const  user = await User.create({
-                    name,email,password
-                }) 
+                    name,
+                    email,
+                    password : hashedPassword,
+                }) ;
              return res.json(user)
         } catch (error) {
             
@@ -50,6 +58,44 @@ const { test } = require('../controllers/authController');
         }
     });
 
-//router.get('/', test)
+
+    //login user
+      
+    router.post('/login', async (req, res) => {
+             
+             try {
+                const {email, password} = req.body;
+
+                //check if email is exist
+                const user = await User.findOne({email});
+
+                if(!user){
+                    return res.json({
+                        error: 'Not user found'
+                    })
+                }
+
+                //check if password is correct
+                if(!bcryptjs.compareSync(password, user.password)){
+                    return res.json({
+                        error: 'Invalid password'
+                    })
+                } else {
+                   
+                    return res.json({
+                        message: 'succesfully login',
+                    })
+                }
+
+                
+             } catch (error) {
+                  
+                  console.log(error);
+             }
+    });
+
+    
+     
+
 
 module.exports = router
