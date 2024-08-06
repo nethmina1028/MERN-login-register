@@ -3,7 +3,7 @@ const dotenv = require('dotenv').config()
 const cors = require('cors');
 const { mongoose }= require('mongoose');
 const cookieParser = require('cookie-parser');  //cookie 
-   
+const uploadRoute = require('./routes/uploadRoute'); 
 const app = express();
 
 //connect to db
@@ -22,6 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
 //set package.josn
 
 app.use('/',require('./routes/authRoutes'));
+app.use('/uploads',uploadRoute);
 
  
 const port = 8000;
